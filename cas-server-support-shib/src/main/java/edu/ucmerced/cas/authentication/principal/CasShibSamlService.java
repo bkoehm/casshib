@@ -119,7 +119,9 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
             // 3... should be everything after the app name or passcode
             if (components.length > 3) {
                 appNameOrPasscode = components[2];
-                log.debug("application name or passcode = " + appNameOrPasscode);
+                log
+                    .debug("application name or passcode = "
+                        + appNameOrPasscode);
             }
         } else {
             log.debug("no application name or passcode detected in url");
