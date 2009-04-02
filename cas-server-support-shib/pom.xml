@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>edu.ucmerced.cas</groupId>
+		<artifactId>ucmerced-cas-server</artifactId>
+		<version>3.3.1a</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.ucmerced.cas</groupId>
+	<artifactId>cas-server-support-shib</artifactId>
+	<packaging>jar</packaging>
+	<name>JA-SIG CAS Server Shibboleth Support</name>
+  
+	<dependencies>
+		<dependency>
+			<groupId>org.jasig.cas</groupId>
+			<artifactId>cas-server-core</artifactId>
+			<version>${cas.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasig.cas</groupId>
+			<artifactId>cas-server-support-trusted</artifactId>
+			<version>${cas.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- override parent compiler plugin so we can show
+			     warnings -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+					<compilerArgument>-Xlint:unchecked</compilerArgument>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			
+			<!-- antrun plugin so we can output the classpath to
+			     a file.  This allows us to do some executions
+			     outside the scope of maven if we want. 
+			     
+			     Run by doing: mvn antrun:run -Dechoclasspath=true 
+			     That will generate a 'classpath' file in the
+			     working directory.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks if="echoclasspath">
+						<property name="runtime_classpath" refid="maven.runtime.classpath"/>
+						<echo file="classpath">${runtime_classpath}</echo>
+					</tasks>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
