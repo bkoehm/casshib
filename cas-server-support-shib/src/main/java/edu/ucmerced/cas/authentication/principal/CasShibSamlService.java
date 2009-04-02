@@ -55,18 +55,18 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
      */
     private static final long serialVersionUID = -2584864803966659627L;
 
-    private final String servicePasscode;
+    private final String appNameOrPasscode;
 
     protected CasShibSamlService(final String id) {
         super(id, id, null, new HttpClient());
-        this.servicePasscode = null;
+        this.appNameOrPasscode = null;
     }
 
     protected CasShibSamlService(final String id, final String originalUrl,
         final String artifactId, final HttpClient httpClient,
-        final String servicePasscode) {
+        final String appNameOrPasscode) {
         super(id, originalUrl, artifactId, httpClient);
-        this.servicePasscode = servicePasscode;
+        this.appNameOrPasscode = appNameOrPasscode;
     }
 
     /**
@@ -105,8 +105,8 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
 
         // Extract the service passcode from url.
         // URLs should be in the following format:
-        // /<contextPath>/shib/<passcode>/?
-        String servicePasscode = null;
+        // /<contextPath>/shib/<appNameOrPasscode>/?
+        String appNameOrPasscode = null;
         if ((request.getContextPath() != null ? request.getRequestURI()
             .startsWith(request.getContextPath() + "/shib") : request
             .getRequestURI().startsWith("/shib"))) {
@@ -115,18 +115,18 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
                     .length() : 0)).split("/");
             // 0 is the empty string before the first slash
             // 1 should be the shibX string
-            // 2 should be the passcode
-            // 3... should be everything after the passcode
+            // 2 should be the app name or passcode
+            // 3... should be everything after the app name or passcode
             if (components.length > 3) {
-                servicePasscode = components[2];
-                log.debug("passcode = " + servicePasscode);
+                appNameOrPasscode = components[2];
+                log.debug("application name or passcode = " + appNameOrPasscode);
             }
         } else {
-            log.debug("no passcode detected in url");
+            log.debug("no application name or passcode detected in url");
         }
 
         return new CasShibSamlService(id, service, artifactId, httpClient,
-            servicePasscode);
+            appNameOrPasscode);
     }
 
     public Response getResponse(final String ticketId) {
@@ -154,6 +154,6 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
     }
 
     public String getAppNameOrPasscode() {
-        return (this.servicePasscode);
+        return (this.appNameOrPasscode);
     }
 }
