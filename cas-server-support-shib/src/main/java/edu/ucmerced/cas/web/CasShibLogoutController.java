@@ -46,6 +46,8 @@ import edu.ucmerced.cas.web.support.CasShibUtil;
  * 
  * @author Scott Battaglia
  * @author Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class CasShibLogoutController extends AbstractController {
 

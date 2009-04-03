@@ -13,6 +13,8 @@ import org.jasig.cas.services.RegisteredServiceImpl;
  * requests.
  * 
  * @author Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class CasShibRegisteredService extends RegisteredServiceImpl {
     /**

@@ -25,11 +25,13 @@ import org.jasig.cas.authentication.principal.Credentials;
  * 
  * <p/>
  * 
- * Dervied from:
+ * Derived from:
  * org.jasig.cas.adaptors.trusted.authentication.principal.PrincipalBearingCredentialsToPrincipalResolver
  * 
  * @author Andrew Petro
  * @author modified by Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class PrincipalBearingCredentialsToPrincipalWithAttributesResolver
     implements CredentialsToPrincipalResolver {

@@ -27,6 +27,8 @@ import edu.ucmerced.cas.authentication.principal.CasShibSamlService;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public abstract class CasShibSamlArgumentExtractor extends
     AbstractShibEnabledArgumentExtractor {

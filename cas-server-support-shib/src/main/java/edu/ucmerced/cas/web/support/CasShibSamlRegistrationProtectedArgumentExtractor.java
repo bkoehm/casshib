@@ -19,6 +19,8 @@ import org.jasig.cas.services.UnauthorizedServiceException;
  * @see AbstractShibEnabledArgumentExtractor
  * 
  * @author Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class CasShibSamlRegistrationProtectedArgumentExtractor extends
     CasShibSamlArgumentExtractor {

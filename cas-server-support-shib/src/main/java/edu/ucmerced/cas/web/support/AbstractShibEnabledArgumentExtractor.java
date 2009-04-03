@@ -30,6 +30,8 @@ import edu.ucmerced.cas.services.CasShibRegisteredService;
  * CAS server (i.e., serviceValidate, proxyValidate, etc).
  * 
  * @author Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public abstract class AbstractShibEnabledArgumentExtractor extends
     AbstractSingleSignOutEnabledArgumentExtractor {

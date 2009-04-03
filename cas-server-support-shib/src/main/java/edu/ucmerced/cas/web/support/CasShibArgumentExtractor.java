@@ -26,6 +26,8 @@ import org.jasig.cas.authentication.principal.WebApplicationService;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public abstract class CasShibArgumentExtractor extends
     AbstractShibEnabledArgumentExtractor {

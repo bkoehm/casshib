@@ -28,6 +28,8 @@ import org.jasig.cas.authentication.principal.Service;
  * registering the service with the ServicesManager.
  * 
  * @author Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class CasShibServiceRegistrar {
     /** Log instance for logging events, info, warnings, errors, etc. */

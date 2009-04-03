@@ -51,7 +51,8 @@ import java.io.UnsupportedEncodingException;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
- * 
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class CasShibCookieRetrievingCookieGenerator {
 

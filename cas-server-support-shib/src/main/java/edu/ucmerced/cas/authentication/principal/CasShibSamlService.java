@@ -33,6 +33,8 @@ import org.springframework.util.StringUtils;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class CasShibSamlService extends AbstractWebApplicationService implements
     CasShibService {

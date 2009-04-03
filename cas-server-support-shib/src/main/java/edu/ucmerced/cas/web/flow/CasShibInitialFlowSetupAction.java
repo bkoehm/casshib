@@ -44,6 +44,8 @@ import edu.ucmerced.cas.web.support.CasShibCookieRetrievingCookieGenerator;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class CasShibInitialFlowSetupAction extends AbstractAction {
 

@@ -14,6 +14,8 @@ import edu.ucmerced.cas.services.CasShibRegisteredService;
  * General web utility methods for CASShib functionality.
  * 
  * @author Brian Koehmstedt
+ * @version $Revision:$ $Date:$
+ * @since 3.3.1a
  */
 public class CasShibUtil {
     /**
