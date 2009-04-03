@@ -19,6 +19,16 @@ import edu.ucmerced.cas.services.CasShibRegisteredService;
  * or not the application name or passcode matches what is registered for the
  * service.
  * 
+ * <p/>
+ * 
+ * This identifies the Shibboleth service by the application identifier embedded
+ * in the request URI. Convention is as follows for the request URIs: /<contextPath>/<appNameOrPasscode>/<...>.
+ * Application names and passcodes are registered in the
+ * shibServiceRegistrations.xml file. Application name is used for requests
+ * where the URL is exposed to the user (i.e., login and logout), and the
+ * passcode is used for back-channel communication between the service and the
+ * CAS server (i.e., serviceValidate, proxyValidate, etc).
+ * 
  * @author Brian Koehmstedt
  */
 public abstract class AbstractShibEnabledArgumentExtractor extends
