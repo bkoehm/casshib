@@ -32,7 +32,7 @@ import org.springframework.util.StringUtils;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
- * @version $Revision:$
+ * @version $Revision: 28 $ $Date:$
  * @since 3.3.1a
  */
 public class CasShibWebApplicationServiceImpl extends
