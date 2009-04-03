@@ -29,16 +29,16 @@ import edu.ucmerced.cas.web.support.CasShibUtil;
  * 
  * <p/>
  * 
- * Modified to handle logging out of the Shibboleth as well as CAS. This handles
- * logging out of the Shibboleth service provider. In addition, if the SSOLogout
- * parameter is present in the request URL, it will also force a logout from the
- * Shibboleth identity provider. Note that this means the user will be presented
- * with the SSO login screen the next time he or she tries to log in and this is
- * all we're trying to do here (after all, it would be bad if the user hits a
- * logout link, comes back, and isn't prompted for a login screen because the
- * Shibboleth side has the user's authentication cached). This is NOT performing
- * any kind of "single logout." The user's session will still be active in other
- * applications previously logged into.
+ * Modified from original to handle logging out of the Shibboleth as well as
+ * CAS. This handles logging out of the Shibboleth service provider. In
+ * addition, if the SSOLogout parameter is present in the request URL, it will
+ * also force a logout from the Shibboleth identity provider. Note that this
+ * means the user will be presented with the SSO login screen the next time he
+ * or she tries to log in and this is all we're trying to do here (after all, it
+ * would be bad if the user hits a logout link, comes back, and isn't prompted
+ * for a login screen because the Shibboleth side has the user's authentication
+ * cached). This is NOT performing any kind of "single logout." The user's
+ * session will still be active in other applications previously logged into.
  * 
  * <p/>
  * 

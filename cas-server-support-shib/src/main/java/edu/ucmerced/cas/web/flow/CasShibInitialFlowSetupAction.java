@@ -35,10 +35,11 @@ import edu.ucmerced.cas.web.support.CasShibCookieRetrievingCookieGenerator;
  * 
  * <p/>
  * 
- * Modified to use the <code>CasShibCookieRetrievingCookieGenerator</code>.
- *
+ * Modified from original to use the
+ * <code>CasShibCookieRetrievingCookieGenerator</code>.
+ * 
  * <p/>
- *
+ * 
  * Derived from: org.jasig.cas.web.flow.InitialFlowSetupAction
  * 
  * @author Scott Battaglia
