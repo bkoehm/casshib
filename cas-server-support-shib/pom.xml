@@ -63,4 +63,15 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<!-- This will make the assembly plugin include the JavaDocs in the
+             assembled archive -->
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+		</plugins> 
+	</reporting>
 </project>
