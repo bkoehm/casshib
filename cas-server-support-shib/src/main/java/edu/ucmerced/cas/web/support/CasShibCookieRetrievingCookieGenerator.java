@@ -33,11 +33,9 @@ import java.io.UnsupportedEncodingException;
  * CasShib. This is necessary so that CAS doesn't cache authentication
  * credentials for different Shibboleth services.
  * 
- * @see AbstractShibEnabledArgumentExtractor for request URI convention.
- * 
  * <p/>
  * 
- * Cookies will be issued as such: CASTGC-<appName> with a cookie path of /<contextPath>/<appName>.
+ * Cookies will be issued as such: CASTGC-[appName] with a cookie path of /[contextPath]/[appName].
  * 
  * <p/>
  * 
@@ -49,9 +47,10 @@ import java.io.UnsupportedEncodingException;
  * 
  * Derived from: org.jasig.cas.web.support.CookieRetrievingCookieGenerator
  * 
+ * @see AbstractShibEnabledArgumentExtractor
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  * @since 3.3.1a
  */
 public class CasShibCookieRetrievingCookieGenerator {
@@ -76,8 +75,8 @@ public class CasShibCookieRetrievingCookieGenerator {
     @NotNull
     private CasShibServiceRegistrar shibServiceRegistrar;
 
-    /** override createCookie to make it public instead of protected */
-    protected static class LocalCookieGenerator extends CookieGenerator {
+    /** Override createCookie to make it public instead of protected */
+    private static class LocalCookieGenerator extends CookieGenerator {
         @Override
         @SuppressWarnings("PMD.UselessOverridingMethod")
         /** public instead of protected */

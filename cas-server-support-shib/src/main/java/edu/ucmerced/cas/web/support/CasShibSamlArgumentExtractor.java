@@ -19,15 +19,14 @@ import edu.ucmerced.cas.authentication.principal.CasShibSamlService;
  * This class has been modified from the original to identify the Shibboleth
  * service by the application identifier embedded in the request URI.
  * 
- * @see AbstractShibEnabledArgumentExtractor
- * 
  * <p/>
  * 
  * Derived from: org.jasig.cas.web.support.SamlArgumentExtractor
  * 
+ * @see AbstractShibEnabledArgumentExtractor
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  * @since 3.3.1a
  */
 public abstract class CasShibSamlArgumentExtractor extends
