@@ -17,6 +17,15 @@
 		<cas.version>3.3.1</cas.version>
 	</properties>
 	
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+
 	<modules>
 		<module>cas-server-support-shib</module>
 		<module>casshib-server-webapp</module>
