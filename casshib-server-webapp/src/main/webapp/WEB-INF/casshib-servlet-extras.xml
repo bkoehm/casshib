@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:flow="http://www.springframework.org/schema/webflow-config"
+       xmlns:p="http://www.springframework.org/schema/p"       
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd">
+       
+	<bean
+		id="casShibLoginController"
+		class="org.springframework.webflow.executor.mvc.FlowController"
+		p:flowExecutor-ref="casShibFlowExecutor"
+		p:defaultFlowId="casshib-login-webflow">
+		<property
+			name="argumentHandler">
+			<bean class="org.springframework.webflow.executor.support.RequestParameterFlowExecutorArgumentHandler"
+				p:flowExecutionKeyArgumentName="lt"
+				p:defaultFlowId="casshib-login-webflow" />
+		</property>
+	</bean>
+
+	<flow:executor id="casShibFlowExecutor" registry-ref="casShibFlowRegistry">
+		<flow:execution-attributes>
+			<flow:alwaysRedirectOnPause value="false"/>
+		</flow:execution-attributes>
+	</flow:executor>
+
+	<flow:registry id="casShibFlowRegistry">
+		<flow:location path="/WEB-INF/casshib-login-webflow.xml"/>
+	</flow:registry>
+
+	<bean id="casShibProxyValidateController" class="org.jasig.cas.web.ServiceValidateController"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService"
+		p:proxyHandler-ref="proxy20Handler"
+		p:argumentExtractor-ref="casShibPasscodeProtectedArgumentExtractor" />
+
+	<bean id="casShibServiceValidateController" class="org.jasig.cas.web.ServiceValidateController"
+		p:validationSpecificationClass="org.jasig.cas.validation.Cas20WithoutProxyingValidationSpecification"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService"
+		p:proxyHandler-ref="proxy20Handler"
+		p:argumentExtractor-ref="casShibPasscodeProtectedArgumentExtractor" />
+	
+	<bean id="casShibSamlValidateController" class="org.jasig.cas.web.ServiceValidateController"
+		p:validationSpecificationClass="org.jasig.cas.validation.Cas20WithoutProxyingValidationSpecification"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService"
+		p:proxyHandler-ref="proxy20Handler"
+		p:argumentExtractor-ref="casShibSamlPasscodeProtectedArgumentExtractor"
+		p:successView="casSamlServiceSuccessView"
+		p:failureView="casSamlServiceFailureView" />
+
+	<!-- shib legacy validation isn't too useful since you can't extract attributes from the response -->
+	<bean id="casShibLegacyValidateController" class="org.jasig.cas.web.ServiceValidateController"
+		p:proxyHandler-ref="proxy10Handler"
+		p:successView="cas1ServiceSuccessView"
+		p:failureView="cas1ServiceFailureView"
+		p:validationSpecificationClass="org.jasig.cas.validation.Cas10ProtocolValidationSpecification"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService"
+		p:argumentExtractor-ref="casShibPasscodeProtectedArgumentExtractor" />
+
+	<bean id="casShibProxyController" class="org.jasig.cas.web.ProxyController"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService" />
+
+	<bean id="casShibLogoutController" class="edu.ucmerced.cas.web.CasShibLogoutController"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService"
+		p:logoutView="casLogoutView"
+		p:warnCookieGenerator-ref="casShibWarnCookieGenerator"
+		p:ticketGrantingTicketCookieGenerator-ref="casShibTicketGrantingTicketCookieGenerator"
+		p:casShibServiceRegistrar-ref="casShibServiceRegistrar">
+	  <property name="followServiceRedirects" value="true" />
+	  <property name="primaryCASLogoutURL" value="https://cas.ucmerced.edu/cas/logout" />
+	  <property name="primaryCASLogoutReturnURLParameter" value="destination" />
+	  <property name="shibIdpSessionClearURL" value="https://shib.ucmerced.edu/idp/clearsession.jsp" />
+	  <property name="shibIdpSessionClearReturnURLParameter" value="return" />
+	</bean>
+	
+	<bean id="casShibInitialFlowSetupAction" class="edu.ucmerced.cas.web.flow.CasShibInitialFlowSetupAction"
+		p:argumentExtractors-ref="casShibArgumentExtractors"
+		p:warnCookieGenerator-ref="casShibWarnCookieGenerator"
+		p:ticketGrantingTicketCookieGenerator-ref="casShibTicketGrantingTicketCookieGenerator" />
+	
+	<bean id="casShibGenerateServiceTicketAction" class="org.jasig.cas.web.flow.GenerateServiceTicketAction"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService" />
+
+	<bean id="casShibSendTicketGrantingTicketAction" class="edu.ucmerced.cas.web.flow.CasShibSendTicketGrantingTicketAction"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService"
+		p:ticketGrantingTicketCookieGenerator-ref="casShibTicketGrantingTicketCookieGenerator" />
+
+	<bean id="casShibDynamicRedirectViewSelector" class="org.jasig.cas.web.flow.DynamicRedirectViewSelector" />
+	
+	<bean id="principalFromRemoteAction" class="edu.ucmerced.cas.adaptors.casshib.web.flow.PrincipalFromHttpHeadersNonInteractiveCredentialsAction"
+		p:centralAuthenticationService-ref="casShibCentralAuthenticationService" />
+
+ 	<bean
+		id="casShibServiceRegistrar"
+		class="edu.ucmerced.cas.services.CasShibServiceRegistrar"
+		p:servicesManager-ref="servicesManager">
+		<property name="casShibServiceRegistrationsResourceName">
+		  <value>casshib-service-registrations.xml</value>
+		</property>
+	</bean>
+</beans>

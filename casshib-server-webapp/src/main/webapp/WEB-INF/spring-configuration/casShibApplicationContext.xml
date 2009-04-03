@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <description>
+    	This defines a seperate core central authentication service bean
+    	that CASShib will use.  The purpose of starting up a separate core
+    	is to keep the "regular CAS" tickets separate from the "CASShib"
+    	tickets, otherwise someone might be able to bypass security
+    	mechanisms on the CASShib side by validating a ticket with the
+    	"regular CAS" validators instead of the CASShib validators they
+    	should be using.
+    </description>
+
+	<!-- CentralAuthenticationService -->
+	<bean id="casShibCentralAuthenticationService" class="org.jasig.cas.CentralAuthenticationServiceImpl"
+		p:ticketGrantingTicketExpirationPolicy-ref="grantingTicketExpirationPolicy"
+		p:serviceTicketExpirationPolicy-ref="serviceTicketExpirationPolicy"
+		p:authenticationManager-ref="authenticationManager"
+		p:ticketGrantingTicketUniqueTicketIdGenerator-ref="ticketGrantingTicketUniqueIdGenerator"
+		p:ticketRegistry-ref="casShibTicketRegistry"
+		p:servicesManager-ref="servicesManager"
+		p:persistentIdGenerator-ref="persistentIdGenerator"
+		p:uniqueTicketIdGeneratorsForService-ref="uniqueIdGeneratorsMap" />
+	
+</beans>
