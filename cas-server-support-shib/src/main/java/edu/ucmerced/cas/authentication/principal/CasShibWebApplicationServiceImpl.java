@@ -32,6 +32,8 @@ import org.springframework.util.StringUtils;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
+ * @version $Revision:$
+ * @since 3.3.1a
  */
 public class CasShibWebApplicationServiceImpl extends
     AbstractWebApplicationService implements CasShibService {
