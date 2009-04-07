@@ -4,10 +4,8 @@
 			<p>
 			  The system wasn't able to properly detect your
 			  authentication credentials.  This could be a
-			  problem with the configuration of the system.  You
-			  may email <a
-			  href="mailto:idm@ucmerced.edu">idm@ucmerced.edu</a>
-			  to report this problem.
+			  problem with the configuration of the system. 
+			  Please contact your administrator.
 			</p>
 		</div>
 <jsp:directive.include file="includes/bottom.jsp" />
