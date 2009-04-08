@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <casShibServiceRegistrations>
+  <!-- id is the URL that CAS will redirect to after a login.  i.e., it is
+       the application's "home page." id must match the serviceId parameter
+       that CAS clients pass in via the query string when redirecting to the
+       login page or making validation requests.
+       
+       appname and passcode are what get embedded in the URL when a client
+       makes requests to CASShib.
+       
+       If appname is 'app1' and passcode is '96306' then the CAS client will
+       be configured to use URLs something like:
+       https://mycasshibserver.edu/casshib/shib/app1/login
+       https://mycasshibserver.edu/casshib/shib/96306/serviceValidate
+ -->
   <!--
-  <service id="https://casshib.ucmerced.edu/casshib/app1"
+  <service id="https://app1.ucmerced.edu/"
            appname="app1"
            passcode="96306" />
   -->
