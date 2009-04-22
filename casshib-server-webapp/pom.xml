@@ -2,8 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>edu.ucmerced.cas</groupId>
-		<artifactId>ucmerced-cas-server</artifactId>
-		<version>3.3.1a</version>
+		<artifactId>casshib-server</artifactId>
+		<version>3.3.2a</version>
 	</parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.ucmerced.cas</groupId>
