@@ -11,7 +11,7 @@
 	<artifactId>casshib-server</artifactId>
 	<packaging>pom</packaging>
 	<name>JA-SIG Central Authentication Service with Shibboleth Support</name>
-	<version>3.3.1a</version>
+	<version>3.3.1b</version>
 	
 	<properties>
 		<cas.version>3.3.1</cas.version>
