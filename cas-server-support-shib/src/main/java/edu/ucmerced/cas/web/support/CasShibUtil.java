@@ -5,6 +5,8 @@
  */
 package edu.ucmerced.cas.web.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import javax.servlet.http.HttpServletRequest;
 import org.jasig.cas.services.UnauthorizedServiceException;
 import edu.ucmerced.cas.services.CasShibServiceRegistrar;
@@ -14,10 +16,13 @@ import edu.ucmerced.cas.services.CasShibRegisteredService;
  * General web utility methods for CASShib functionality.
  * 
  * @author Brian Koehmstedt
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  * @since 3.3.1a
  */
 public class CasShibUtil {
+    /** Log instance for logging events, info, warnings, errors, etc. */
+    private static final Log log = LogFactory.getLog(CasShibUtil.class);
+
     /**
      * This parses out the application name from the request URI.
      * 
@@ -65,10 +70,12 @@ public class CasShibUtil {
             CasShibRegisteredService service = registrar
                 .findServiceByAppName(appName);
             if (service == null) {
+                log.warn("Application with name of " + appName + " is not registered.");
                 throw new UnauthorizedServiceException(
                     "Application name is not registered.");
             }
         } catch (CasShibServiceRegistrar.CasShibServiceRegistrarException e) {
+            log.warn("Exception trying to look up application with name of " + appName + ": " + e.getMessage());
             throw new UnauthorizedServiceException(
                 "Application name is not registered.", e);
         }
