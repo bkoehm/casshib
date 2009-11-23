@@ -31,7 +31,7 @@ import edu.ucmerced.cas.web.support.CasShibCookieRetrievingCookieGenerator;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  * @since 3.3.1a
  */
 public class CasShibSendTicketGrantingTicketAction extends AbstractAction {
