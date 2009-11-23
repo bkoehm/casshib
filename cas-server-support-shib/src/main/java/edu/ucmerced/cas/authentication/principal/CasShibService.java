@@ -13,7 +13,7 @@ import org.jasig.cas.authentication.principal.WebApplicationService;
  * additional service authentication during CASShib requests.
  *
  * @author Brian Koehmstedt
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  * @since 3.3.1a
  */
 public interface CasShibService extends WebApplicationService
