@@ -30,7 +30,7 @@ import org.jasig.cas.authentication.principal.Credentials;
  * 
  * @author Andrew Petro
  * @author modified by Brian Koehmstedt
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  * @since 3.3.1a
  */
 public class PrincipalBearingCredentialsToPrincipalWithAttributesResolver
