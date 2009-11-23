@@ -33,7 +33,7 @@ import org.springframework.util.StringUtils;
  * 
  * @author Scott Battaglia
  * @author modified by Brian Koehmstedt
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  * @since 3.3.1a
  */
 public class CasShibSamlService extends AbstractWebApplicationService implements
@@ -100,7 +100,7 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
                 .indexOf(CONST_END_ARTIFACT_XML_TAG);
 
             artifactId = requestBody.substring(artifactStartLocation,
-                endTagLocation);
+                endTagLocation).trim();
         } else {
             artifactId = null;
         }
