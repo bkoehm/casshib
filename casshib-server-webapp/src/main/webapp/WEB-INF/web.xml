@@ -99,7 +99,7 @@
 		- Spring WebMVC controllers as configured in cas-servlet.xml.
 		-   
 		- The choice made above about how to handle a broken ApplicationContext at 
-		- context initialization applies here as well, sicne this servlet is load-on-startup.
+		- context initialization applies here as well, since this servlet is load-on-startup.
 		-
 		- If you'd like these errors to be fatal and prevent the CAS servlet from loading at all,
 		- use org.springframework.web.servlet.DispatcherServlet.
@@ -171,7 +171,13 @@
 		<servlet-name>cas</servlet-name>
 		<url-pattern>/services/add.html</url-pattern>
 	</servlet-mapping>
-	
+
+    <servlet-mapping>
+        <servlet-name>cas</servlet-name>
+        <url-pattern>/services/viewStatistics.html</url-pattern>
+    </servlet-mapping>
+
+
 	<servlet-mapping>
 		<servlet-name>cas</servlet-name>
 		<url-pattern>/services/logout.html</url-pattern>
@@ -201,21 +207,6 @@
 
 	<servlet-mapping>
 		<servlet-name>cas</servlet-name>
-		<url-pattern>/services/viewCurrentStatistics.html</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>cas</servlet-name>
-		<url-pattern>/services/viewStatistics.html</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>cas</servlet-name>
-		<url-pattern>/services/viewLogRequests.html</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>cas</servlet-name>
 		<url-pattern>/services/deleteRegisteredService.html</url-pattern>
 	</servlet-mapping>
 
@@ -228,16 +219,21 @@
 		<exception-type>org.springframework.context.ApplicationContextException</exception-type>
 		<location>/WEB-INF/view/jsp/brokenContext.jsp</location>
 	</error-page>
-<!--
+
 	<error-page>
-		<exception-type>java.lang.Exception</exception-type>
+        <error-code>500</error-code>
 		<location>/WEB-INF/view/jsp/errors.jsp</location>
 	</error-page>
--->
+
 	<error-page>
 		<error-code>404</error-code>
-		<location>/404.jsp</location>
+		<location>/</location>
 	</error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/view/jsp/default/ui/casBlockedView.jsp</location>
+    </error-page>
 	
 	<welcome-file-list>
   		<welcome-file>index.jsp</welcome-file>
