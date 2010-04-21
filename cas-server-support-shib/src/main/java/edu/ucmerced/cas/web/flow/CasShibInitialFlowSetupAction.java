@@ -8,9 +8,9 @@ package edu.ucmerced.cas.web.flow;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.inspektr.common.ioc.annotation.NotEmpty;
-import org.inspektr.common.ioc.annotation.NotNull;
 import org.jasig.cas.authentication.principal.Service;
 import org.jasig.cas.web.support.ArgumentExtractor;
 import org.jasig.cas.web.support.WebUtils;
@@ -58,7 +58,8 @@ public class CasShibInitialFlowSetupAction extends AbstractAction {
     private CasShibCookieRetrievingCookieGenerator ticketGrantingTicketCookieGenerator;
 
     /** Extractors for finding the service. */
-    @NotEmpty
+    @NotNull
+    @Size(min=1)
     private List<ArgumentExtractor> argumentExtractors;
 
     /** Boolean to note whether we've set the values on the generators or not. */

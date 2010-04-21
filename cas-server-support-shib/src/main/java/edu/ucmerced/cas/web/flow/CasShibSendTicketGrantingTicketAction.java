@@ -5,12 +5,13 @@
  */
 package edu.ucmerced.cas.web.flow;
 
-import org.inspektr.common.ioc.annotation.NotNull;
 import org.jasig.cas.CentralAuthenticationService;
 import org.jasig.cas.web.support.WebUtils;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
+
+import javax.validation.constraints.NotNull;
 
 import edu.ucmerced.cas.web.support.CasShibCookieRetrievingCookieGenerator;
 
