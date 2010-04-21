@@ -17,10 +17,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.inspektr.common.ioc.annotation.NotNull;
 import org.jasig.cas.services.ServicesManager;
 import org.jasig.cas.services.RegisteredService;
 import org.jasig.cas.authentication.principal.Service;
+import javax.validation.constraints.NotNull;
 
 /**
  * The CASShib service registrar is responsible for reading in the casshib
