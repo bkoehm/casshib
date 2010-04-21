@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.CookieGenerator;
 import edu.ucmerced.cas.services.CasShibServiceRegistrar;
 
-import org.inspektr.common.ioc.annotation.NotNull;
+import javax.validation.constraints.NotNull;
 import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
 

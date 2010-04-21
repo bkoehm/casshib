@@ -5,9 +5,9 @@
  */
 package edu.ucmerced.cas.web.support;
 
+import javax.validation.constraints.NotNull;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.inspektr.common.ioc.annotation.NotNull;
 import org.jasig.cas.web.support.AbstractSingleSignOutEnabledArgumentExtractor;
 import edu.ucmerced.cas.authentication.principal.CasShibService;
 import edu.ucmerced.cas.services.CasShibServiceRegistrar;
