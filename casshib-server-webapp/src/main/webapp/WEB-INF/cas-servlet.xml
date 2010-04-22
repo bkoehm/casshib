@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:flow="http://www.springframework.org/schema/webflow-config"
+       xmlns:webflow="http://www.springframework.org/schema/webflow-config"
        xmlns:p="http://www.springframework.org/schema/p"       
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-       http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
        
 	<bean id="casPropertyPlaceholderConfigurer2" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="/WEB-INF/cas.properties" />
@@ -12,7 +12,17 @@
 	<!-- Theme Resolver -->
 	<bean id="themeResolver" class="org.jasig.cas.services.web.ServiceThemeResolver"
 		p:defaultThemeName="${cas.themeResolver.defaultThemeName}"
-        p:argumentExtractors-ref="argumentExtractors" />
+        p:argumentExtractors-ref="argumentExtractors"
+        p:servicesManager-ref="servicesManager">
+        <property name="mobileBrowsers">
+            <map>
+                <entry key=".*iPhone.*" value="iphone" />
+                <entry key=".*Android.*" value="iphone" />
+                <entry key=".*Safari.*Pre.*" value="iphone" />
+                <entry key=".*Nokia.*AppleWebKit.*" value="iphone" />
+            </map>
+        </property>
+    </bean>
 
 	<!-- View Resolver -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver"
@@ -32,53 +42,25 @@
 	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
 	
 	<bean id="urlBasedViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"
-		p:viewClass="org.springframework.web.servlet.view.AbstractUrlBasedView" />
+		p:viewClass="org.springframework.web.servlet.view.InternalResourceView"
+        p:prefix="/WEB-INF/view/jsp/"
+        p:suffix=".jsp"
+        p:order="1"/>
 	
 	<bean id="errorHandlerResolver" class="org.jasig.cas.web.NoSuchFlowExecutionExceptionResolver" />
 
-	<!-- Handler Mapping -->
-	<bean id="handlerMappingB" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<property
-			name="mappings">
-			<props>
-				<!--
-				<prop
-					key="/login">loginController</prop>
-				-->
-				<!--
-				<prop
-					key="/**/*.login">loginController</prop>
-				-->
-				
-				<!--  For a reason I don't understand the
-				      mappings here in this section seem to
-				      be working differently than in the
-				      next section.  Here, if the servlet
-				      mapping is mapped to "/shib/*" Spring
-				      is stripping off the /shib part when
-				      doing the matching here.  So if the
-				      URI is "/shib/X/login" Spring will
-				      match it here if the key is /X/login
-				      or /*/login.
-				-->
-				<prop
-					key="/*/login">casShibLoginController</prop>
-			</props>
-		</property>
-		<property
-			name="interceptors">
-			<list>
-				<ref bean="localeChangeInterceptor" />
-			</list>
-		</property>
-	</bean>
-		
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+
 	<bean
 		id="handlerMappingC"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property
 			name="mappings">
 			<props>
+				<prop
+					key="/shib/*/login">
+					casShibLoginController
+				</prop>
 				<!--
 				<prop
 					key="/logout">
@@ -168,6 +150,8 @@
 				<prop
 					key="/openid/*">openIdProviderController</prop>
 				-->
+                <prop
+                        key="/authorizationFailure.html">passThroughController</prop>
 			</props>
 		</property>
 		<property
@@ -182,6 +166,8 @@
 		</property>
 		 -->
 	</bean>
+
+    <bean id="passThroughController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" /> 
 	
 	<bean
 		id="openIdProviderController"
@@ -193,28 +179,37 @@
 		class="org.springframework.web.servlet.mvc.ParameterizableViewController"
 		p:viewName="serviceLogoutView" />
 
-	<bean
-		id="loginController"
-		class="org.springframework.webflow.executor.mvc.FlowController"
-		p:flowExecutor-ref="flowExecutor"
-		p:defaultFlowId="login-webflow">
-		<property
-			name="argumentHandler">
-			<bean class="org.springframework.webflow.executor.support.RequestParameterFlowExecutorArgumentHandler"
-				p:flowExecutionKeyArgumentName="lt"
-				p:defaultFlowId="login-webflow" />
-		</property>
-	</bean>
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping" p:flowRegistry-ref="flowRegistry" p:order="2">
+        <property name="interceptors">
+            <ref local="localeChangeInterceptor" />
+        </property>
+    </bean>
 
-	<flow:executor id="flowExecutor" registry-ref="flowRegistry">
-		<flow:execution-attributes>
-			<flow:alwaysRedirectOnPause value="false"/>
-		</flow:execution-attributes>
-	</flow:executor>
+    <bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter"
+        p:flowExecutor-ref="flowExecutor"
+        p:flowUrlHandler-ref="flowUrlHandler" />
 
-	<flow:registry id="flowRegistry">
-		<flow:location path="/WEB-INF/login-webflow.xml"/>
-	</flow:registry>
+    <bean id="flowUrlHandler" class="org.jasig.cas.web.flow.CasDefaultFlowUrlHandler" />
+
+    <webflow:flow-executor id="flowExecutor" flow-registry="flowRegistry">
+        <webflow:flow-execution-attributes>
+            <webflow:always-redirect-on-pause value="false" />
+        </webflow:flow-execution-attributes>
+    </webflow:flow-executor>
+
+    <webflow:flow-registry id="flowRegistry" flow-builder-services="builder">
+        <webflow:flow-location path="/WEB-INF/login-webflow.xml" id="login" />
+    </webflow:flow-registry>
+
+    <webflow:flow-builder-services id="builder" view-factory-creator="viewFactoryCreator" />
+
+    <bean id="viewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+        <property name="viewResolvers">
+            <list>
+                <ref local="viewResolver" />
+            </list>
+        </property>
+    </bean>
 
 	<!--
 	<bean id="proxyValidateController" class="org.jasig.cas.web.ServiceValidateController"
@@ -256,7 +251,8 @@
 		p:centralAuthenticationService-ref="centralAuthenticationService" />
 	-->
 
-    <bean id="viewStatisticsController" class="org.jasig.cas.web.StatisticsController">
+    <bean id="viewStatisticsController" class="org.jasig.cas.web.StatisticsController"
+        p:casTicketSuffix="${host.name}">
         <constructor-arg index="0" ref="ticketRegistry" />
     </bean>
 
@@ -284,8 +280,6 @@
 		p:centralAuthenticationService-ref="centralAuthenticationService"
 		p:ticketGrantingTicketCookieGenerator-ref="ticketGrantingTicketCookieGenerator" />
 	
-	<bean id="dynamicRedirectViewSelector" class="org.jasig.cas.web.flow.DynamicRedirectViewSelector" />
-
 	<bean id="addRegisteredServiceSimpleFormController" class="org.jasig.cas.services.web.RegisteredServiceSimpleFormController"
 		p:formView="addServiceView"
 		p:successView="addServiceView"
@@ -311,5 +305,11 @@
 	
 	<bean id="manageRegisteredServicesMultiActionController" class="org.jasig.cas.services.web.ManageRegisteredServicesMultiActionController">
 		<constructor-arg index="0" ref="servicesManager" />
+        <constructor-arg index="1" value="${cas.securityContext.serviceProperties.service}" />
 	</bean>
+
+    <bean id="messageInterpolator" class="org.jasig.cas.util.SpringAwareMessageMessageInterpolator" />
+
+    <bean id="credentialsValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
+            p:messageInterpolator-ref="messageInterpolator" />
 </beans>
