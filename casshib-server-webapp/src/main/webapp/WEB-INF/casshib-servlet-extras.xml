@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:flow="http://www.springframework.org/schema/webflow-config"
+       xmlns:webflow="http://www.springframework.org/schema/webflow-config"
        xmlns:p="http://www.springframework.org/schema/p"       
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-       http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-1.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
        
-	<bean
-		id="casShibLoginController"
-		class="org.springframework.webflow.executor.mvc.FlowController"
-		p:flowExecutor-ref="casShibFlowExecutor"
-		p:defaultFlowId="casshib-login-webflow">
-		<property
-			name="argumentHandler">
-			<bean class="org.springframework.webflow.executor.support.RequestParameterFlowExecutorArgumentHandler"
-				p:flowExecutionKeyArgumentName="lt"
-				p:defaultFlowId="casshib-login-webflow" />
+	<webflow:flow-executor id="casShibFlowExecutor" flow-registry="casShibFlowRegistry">
+		<webflow:flow-execution-attributes>
+			<webflow:always-redirect-on-pause value="false"/>
+		</webflow:flow-execution-attributes>
+	</webflow:flow-executor>
+
+	<webflow:flow-registry id="casShibFlowRegistry" flow-builder-services="casShibBuilder">
+		<webflow:flow-location path="/WEB-INF/casshib-login-webflow.xml" id="login"/>
+	</webflow:flow-registry>
+
+        <webflow:flow-builder-services id="casShibBuilder" view-factory-creator="casShibViewFactoryCreator" />
+
+	<!-- View Resolver -->
+	<bean id="casShibViewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver"
+		p:order="0">
+		<property name="basenames">
+			<list>
+				<value>${cas.viewResolver.basename}</value>
+				<value>protocol_views</value>
+				<value>casshib_views</value>
+			</list>
 		</property>
 	</bean>
 
-	<flow:executor id="casShibFlowExecutor" registry-ref="casShibFlowRegistry">
-		<flow:execution-attributes>
-			<flow:alwaysRedirectOnPause value="false"/>
-		</flow:execution-attributes>
-	</flow:executor>
-
-	<flow:registry id="casShibFlowRegistry">
-		<flow:location path="/WEB-INF/casshib-login-webflow.xml"/>
-	</flow:registry>
+    <bean id="casShibViewFactoryCreator" class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+        <property name="viewResolvers">
+            <list>
+                <ref local="casShibViewResolver" />
+            </list>
+        </property>
+    </bean>
 
 	<bean id="casShibProxyValidateController" class="org.jasig.cas.web.ServiceValidateController"
 		p:centralAuthenticationService-ref="casShibCentralAuthenticationService"
@@ -72,6 +81,17 @@
 	  <property name="shibIdpSessionClearURL" value="https://shib.ucmerced.edu/idp/clearsession.jsp" />
 	  <property name="shibIdpSessionClearReturnURLParameter" value="return" />
 	</bean>
+
+	<!-- maps any URL ending with <url>/login to flow id of login which
+	     is defined in the casShibFlowRegistry -->
+	<bean
+		id="casShibLoginController"
+		class="org.springframework.webflow.mvc.servlet.FlowController">
+	  <property name="flowExecutor" ref="casShibFlowExecutor" />
+	  <property name="flowUrlHandler">
+	    <bean class="org.springframework.webflow.context.servlet.FilenameFlowUrlHandler" />
+	  </property>
+	</bean>
 	
 	<bean id="casShibInitialFlowSetupAction" class="edu.ucmerced.cas.web.flow.CasShibInitialFlowSetupAction"
 		p:argumentExtractors-ref="casShibArgumentExtractors"
@@ -85,8 +105,6 @@
 		p:centralAuthenticationService-ref="casShibCentralAuthenticationService"
 		p:ticketGrantingTicketCookieGenerator-ref="casShibTicketGrantingTicketCookieGenerator" />
 
-	<bean id="casShibDynamicRedirectViewSelector" class="org.jasig.cas.web.flow.DynamicRedirectViewSelector" />
-	
 	<bean id="principalFromRemoteAction" class="edu.ucmerced.cas.adaptors.casshib.web.flow.PrincipalFromHttpHeadersNonInteractiveCredentialsAction"
 		p:centralAuthenticationService-ref="casShibCentralAuthenticationService" />
 
