@@ -27,7 +27,7 @@
 	-->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
-		<param-value>classpath:log4j.properties</param-value>
+		<param-value>classpath:log4j.xml</param-value>
 	</context-param>
 	
 	<context-param>
@@ -37,7 +37,7 @@
 	
 	<filter>
 		<filter-name>CAS Client Info Logging Filter</filter-name>
-		<filter-class>org.inspektr.common.web.ClientInfoThreadLocalFilter</filter-class>
+		<filter-class>com.github.inspektr.common.web.ClientInfoThreadLocalFilter</filter-class>
 	</filter>
 	
 	<filter>
@@ -209,6 +209,11 @@
 		<servlet-name>cas</servlet-name>
 		<url-pattern>/services/deleteRegisteredService.html</url-pattern>
 	</servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>cas</servlet-name>
+        <url-pattern>/authorizationFailure.html</url-pattern>
+    </servlet-mapping>
 
 	<session-config>
 		<!-- Default to 5 minute session timeouts -->
