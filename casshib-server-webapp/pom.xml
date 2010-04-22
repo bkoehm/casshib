@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>edu.ucmerced.cas</groupId>
 		<artifactId>casshib-server</artifactId>
-		<version>3.3.5a</version>
+		<version>3.4.2a</version>
 	</parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.ucmerced.cas</groupId>
