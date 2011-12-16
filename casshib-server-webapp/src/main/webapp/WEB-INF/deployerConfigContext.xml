@@ -116,7 +116,7 @@
     <!-- <sec:user name="@@THIS SHOULD BE REPLACED@@" password="notused" authorities="ROLE_ADMIN" />-->
 
     <sec:user-service id="userDetailsService">
-        <sec:user name="@@THIS SHOULD BE REPLACED@@" password="notused" authorities="ROLE_ADMIN" />
+        <sec:user name="battags" password="notused" authorities="ROLE_ADMIN" />
     </sec:user-service>
 	
 	<!-- 
@@ -174,4 +174,6 @@
                 </list>
             </property>
         </bean>
+
+    <bean id="auditTrailManager" class="com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager" />
 </beans>

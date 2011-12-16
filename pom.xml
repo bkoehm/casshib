@@ -4,17 +4,17 @@
 	<parent>
 		<groupId>org.jasig.cas</groupId>
 		<artifactId>cas-server</artifactId>
-		<version>3.4.5</version>
+		<version>3.4.6</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.ucmerced.cas</groupId>
 	<artifactId>casshib-server</artifactId>
 	<packaging>pom</packaging>
 	<name>JA-SIG Central Authentication Service with Shibboleth Support</name>
-	<version>3.4.5a</version>
+	<version>3.4.6a</version>
 	
 	<properties>
-		<cas.version>3.4.5</cas.version>
+		<cas.version>3.4.6</cas.version>
 	</properties>
 	
 	<reporting>
