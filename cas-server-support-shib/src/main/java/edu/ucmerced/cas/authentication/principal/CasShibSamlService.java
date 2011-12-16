@@ -52,6 +52,8 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
 
     private static final String CONST_END_ARTIFACT_XML_TAG = "</samlp:AssertionArtifact>";
 
+    private String requestId;
+
     /**
      * Unique Id for serialization.
      */
@@ -66,8 +68,9 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
 
     protected CasShibSamlService(final String id, final String originalUrl,
         final String artifactId, final HttpClient httpClient,
-        final String appNameOrPasscode) {
+        final String requestId, final String appNameOrPasscode) {
         super(id, originalUrl, artifactId, httpClient);
+        this.requestId = requestId;
         this.appNameOrPasscode = appNameOrPasscode;
     }
 
@@ -79,11 +82,16 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
         return true;
     }
 
+    public String getRequestID() {
+        return this.requestId;
+    }
+
     public static CasShibSamlService createServiceFrom(
         final HttpServletRequest request, final HttpClient httpClient) {
         final String service = request.getParameter(CONST_PARAM_SERVICE);
         final String artifactId;
         final String requestBody = getRequestBody(request);
+        final String requestId;
 
         if (!StringUtils.hasText(service) && !StringUtils.hasText(requestBody)) {
             return null;
@@ -99,10 +107,13 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
             final int endTagLocation = requestBody
                 .indexOf(CONST_END_ARTIFACT_XML_TAG);
 
-            artifactId = requestBody.substring(artifactStartLocation,
-                endTagLocation).trim();
+            artifactId = requestBody.substring(artifactStartLocation, endTagLocation).trim();
+
+            // is there a request id?
+            requestId = extractRequestId(requestBody);
         } else {
             artifactId = null;
+            requestId = null;
         }
 
         // Extract the service passcode from url.
@@ -130,7 +141,7 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
         }
 
         return new CasShibSamlService(id, service, artifactId, httpClient,
-            appNameOrPasscode);
+            requestId, appNameOrPasscode);
     }
 
     public Response getResponse(final String ticketId) {
@@ -140,6 +151,22 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
         parameters.put(CONST_PARAM_SERVICE, getOriginalUrl());
 
         return Response.getRedirectResponse(getOriginalUrl(), parameters);
+    }
+
+    protected static String extractRequestId(final String requestBody) {
+        if (!requestBody.contains("RequestID")) {
+            return null;
+        }
+
+        try {
+            final int position = requestBody.indexOf("RequestID=\"") + 11;
+            final int nextPosition = requestBody.indexOf("\"", position);
+
+            return requestBody.substring(position,  nextPosition);
+        } catch (final Exception e) {
+            log.debug("Exception parsing RequestID from request." ,e);
+            return null;
+        }
     }
 
     protected static String getRequestBody(final HttpServletRequest request) {
