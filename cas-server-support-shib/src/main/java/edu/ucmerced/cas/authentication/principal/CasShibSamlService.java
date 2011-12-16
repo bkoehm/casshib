@@ -140,6 +140,13 @@ public class CasShibSamlService extends AbstractWebApplicationService implements
             log.debug("no application name or passcode detected in url");
         }
 
+        if (log.isDebugEnabled()) {
+            log.debug("Attempted to extract Request from HttpServletRequest.  Results:");
+            log.debug(String.format("Request Body: %s", requestBody));
+            log.debug(String.format("Extracted ArtifactId: %s", artifactId));
+            log.debug(String.format("Extracted Request Id: %s", requestId));
+        }
+
         return new CasShibSamlService(id, service, artifactId, httpClient,
             requestId, appNameOrPasscode);
     }
