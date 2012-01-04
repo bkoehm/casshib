@@ -13,7 +13,7 @@
 	</decision-state>
 
 	<decision-state id="gatewayRequestCheck">
-		<if test="externalContext.requestParameterMap['gateway'] neq '' &amp;&amp; externalContext.requestParameterMap['gateway'] neq null &amp;&amp; flowScope.service neq null" then="gatewayServicesManagementCheck" else="remoteAuthenticate" />
+		<if test="externalContext.requestParameterMap['gateway'] neq '' &amp;&amp; externalContext.requestParameterMap['gateway'] neq null &amp;&amp; flowScope.service neq null" then="gatewayServicesManagementCheck" else="generateLoginTicket" />
 	</decision-state>
 	
 	<decision-state id="hasServiceCheck">
@@ -21,7 +21,7 @@
 	</decision-state>
 	
 	<decision-state id="renewRequestCheck">
-		<if test="externalContext.requestParameterMap['renew'] neq '' &amp;&amp; externalContext.requestParameterMap['renew'] neq null" then="remoteAuthenticate" else="generateServiceTicket" />
+		<if test="externalContext.requestParameterMap['renew'] neq '' &amp;&amp; externalContext.requestParameterMap['renew'] neq null" then="generateLoginTicket" else="generateServiceTicket" />
 	</decision-state>
 	
 	<!-- 
@@ -31,6 +31,11 @@
 	<decision-state id="warn">
 		<if test="flowScope.warnCookieValue" then="showWarningView" else="redirect" />
 	</decision-state>
+	
+	<action-state id="generateLoginTicket">
+	  <evaluate expression="generateLoginTicketAction.generate(flowRequestContext)" />
+	  <transition on="success" to="remoteAuthenticate" />
+	</action-state>
 	
 	<!-- Trusted -->
 	<action-state id="remoteAuthenticate">
@@ -52,7 +57,7 @@
 	<action-state id="generateServiceTicket">
 		<evaluate expression="casShibGenerateServiceTicketAction" />
 		<transition on="success" to="warn" />
-		<transition on="error" to="remoteAuthenticate" />
+		<transition on="error" to="generateLoginTicket" />
 		<transition on="gateway" to="gatewayServicesManagementCheck" />
 	</action-state>
 	
