@@ -17,6 +17,8 @@
 	</webflow:flow-registry>
 
         <webflow:flow-builder-services id="casShibBuilder" view-factory-creator="casShibViewFactoryCreator" expression-parser="expressionParser" />
+        
+        <bean id="expressionParser" class="org.springframework.webflow.expression.WebFlowOgnlExpressionParser" />
 
 	<!-- View Resolver -->
 	<bean id="casShibViewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver"
