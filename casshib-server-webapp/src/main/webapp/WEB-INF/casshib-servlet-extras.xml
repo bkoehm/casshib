@@ -16,7 +16,7 @@
 		<webflow:flow-location path="/WEB-INF/casshib-login-webflow.xml" id="login"/>
 	</webflow:flow-registry>
 
-        <webflow:flow-builder-services id="casShibBuilder" view-factory-creator="casShibViewFactoryCreator" />
+        <webflow:flow-builder-services id="casShibBuilder" view-factory-creator="casShibViewFactoryCreator" expression-parser="expressionParser" />
 
 	<!-- View Resolver -->
 	<bean id="casShibViewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver"
