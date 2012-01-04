@@ -33,7 +33,7 @@
 	</decision-state>
 	
 	<action-state id="generateLoginTicket">
-	  <evaluate expression="generateLoginTicketAction.generate(flowRequestContext)" />
+	  <evaluate expression="casShibGenerateLoginTicketAction.generate(flowRequestContext)" />
 	  <transition on="success" to="remoteAuthenticate" />
 	</action-state>
 	

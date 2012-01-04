@@ -118,4 +118,7 @@
 		  <value>casshib-service-registrations.xml</value>
 		</property>
 	</bean>
+
+    <bean id="casShibGenerateLoginTicketAction" class="org.jasig.cas.web.flow.GenerateLoginTicketAction"
+        p:ticketIdGenerator-ref="loginTicketUniqueIdGenerator" />
 </beans>
