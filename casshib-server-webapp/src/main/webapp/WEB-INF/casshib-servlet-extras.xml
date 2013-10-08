@@ -76,7 +76,8 @@
 		p:logoutView="casLogoutView"
 		p:warnCookieGenerator-ref="casShibWarnCookieGenerator"
 		p:ticketGrantingTicketCookieGenerator-ref="casShibTicketGrantingTicketCookieGenerator"
-		p:casShibServiceRegistrar-ref="casShibServiceRegistrar">
+		p:casShibServiceRegistrar-ref="casShibServiceRegistrar"
+		p:servicesManager-ref="servicesManager">
 	  <property name="followServiceRedirects" value="true" />
 	  <property name="primaryCASLogoutURL" value="https://cas.ucmerced.edu/cas/logout" />
 	  <property name="primaryCASLogoutReturnURLParameter" value="destination" />
