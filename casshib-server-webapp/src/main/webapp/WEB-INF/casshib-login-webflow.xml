@@ -46,7 +46,7 @@
 
     <!-- Do a service authorization check early without the need to login first -->
     <action-state id="serviceAuthorizationCheck">
-        <evaluate expression="serviceAuthorizationCheck"/>
+        <evaluate expression="casShibServiceAuthorizationCheck"/>
         <transition to="generateLoginTicket"/>
     </action-state>
 	
@@ -60,7 +60,7 @@
 	
 	<action-state id="generateLoginTicket">
 	  <evaluate expression="casShibGenerateLoginTicketAction.generate(flowRequestContext)" />
-	  <transition on="success" to="remoteAuthenticate" />
+	  <transition on="generated" to="remoteAuthenticate" />
 	</action-state>
 	
 	<!-- Trusted -->
